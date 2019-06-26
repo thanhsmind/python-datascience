@@ -32,4 +32,6 @@ $ docker pull nguyenphuongthanhf/python-datascience:2.7
 # For Python 3.6 pull
 $ docker pull nguyenphuongthanhf/python-datascience:3.6
 $ docker container run --rm -it nguyenphuongthanhf/python-datascience:3.6 python
+
+docker container run --rm -it -v $(pwd):app nguyenphuongthanhf/python-datascience:latest python
 ```
