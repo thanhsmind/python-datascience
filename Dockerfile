@@ -1,12 +1,26 @@
 FROM alpine:3.8
 
-LABEL MAINTAINER="Faizan Bashir <faizan.ibn.bashir@gmail.com>"
+LABEL MAINTAINER="Thanh Nguyen <nguyenphuongthanhf@gmail.com>"
 
 # Linking of locale.h as xlocale.h
 # This is done to ensure successfull install of python numpy package
 # see https://forum.alpinelinux.org/comment/690#comment-690 for more information.
 
-WORKDIR /var/www/
+# CREATE USER THE SAME UID AND WITH PARENT COMPUTER
+ARG HOST_USER_UID=1000
+ARG HOST_USER_GID=1000
+ARG HOST_USER_NAME=www
+ARG HOST_GROUP_NAME=www
+
+RUN set -xe \
+&& apk add --no-cache \
+&& echo 'Creating notroot user and group from host' \
+&& addgroup -g ${HOST_USER_GID} -S ${HOST_GROUP_NAME} \
+&& adduser  -u ${HOST_USER_UID} -D -S -G ${HOST_GROUP_NAME} ${HOST_USER_NAME}
+
+RUN mkdir -p /app
+
+WORKDIR /app
 
 # SOFTWARE PACKAGES
 #   * musl: standard C library
